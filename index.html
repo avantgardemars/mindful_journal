@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#17251f">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Mindful Journal">
+<title>Mindful Journal</title>
+<style>
+:root{--bg:#f4f3ed;--card:#fffefa;--ink:#1d2923;--muted:#6c766e;--line:#dfe3d8;--green:#294d3b;--green2:#e4ede4;--amber:#f5ead4;--red:#8e3834;--radius:18px}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}
+header{background:#17251f;color:#fff;padding:20px 18px 14px;position:sticky;top:0;z-index:5}
+.brand{font-size:22px;font-weight:800;letter-spacing:-.5px}.brand span{color:#b9d1b9}
+.headerline{display:flex;justify-content:space-between;align-items:center;gap:12px}.sub{font-size:12px;color:#c5d0c7;margin-top:3px}
+nav{display:flex;gap:6px;overflow:auto;margin-top:16px;padding-bottom:2px}nav button{border:0;border-radius:999px;background:#304239;color:#e8eee9;padding:10px 13px;white-space:nowrap;font-weight:650;font-size:13px}nav button.active{background:#e7efe6;color:#17251f}
+main{max-width:760px;margin:0 auto;padding:16px 13px 36px}.view{display:none}.view.active{display:block}
+.hero{padding:8px 4px 14px}.eyebrow{font-size:11px;font-weight:800;letter-spacing:1.5px;color:var(--green);text-transform:uppercase}.hero h1{font-size:29px;letter-spacing:-.9px;line-height:1.12;margin:7px 0}.hero p{margin:7px 0;color:var(--muted);font-size:14px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:15px;min-width:0}.wide{grid-column:1/-1}.card h2{font-size:17px;margin:0 0 10px;letter-spacing:-.3px}.small{font-size:12px;color:var(--muted)}.muted{color:var(--muted)}
+.metric{font-size:27px;font-weight:800;letter-spacing:-1px}.pill{display:inline-flex;align-items:center;border-radius:999px;padding:5px 9px;background:var(--green2);color:var(--green);font-size:11px;font-weight:800}.pill.amber{background:var(--amber);color:#76531d}.pill.red{background:#f7e6e4;color:var(--red)}
+label{display:block;font-size:13px;font-weight:700;margin:12px 0 6px}input,textarea,select{font:inherit;color:var(--ink);background:#fff;border:1px solid #cfd6cb;border-radius:11px;padding:12px;width:100%;min-width:0}textarea{min-height:86px;resize:vertical}input[type=range]{padding:0;accent-color:var(--green)}input[type=checkbox]{width:20px;height:20px;accent-color:var(--green)}
+button{cursor:pointer}.btn{border:0;border-radius:12px;background:var(--green);color:white;font-weight:750;padding:12px 14px;font-size:14px}.btn.secondary{background:#e9ece5;color:var(--ink)}.btn.danger{background:#f7e6e4;color:var(--red)}.btn.full{width:100%;margin-top:12px}.row{display:flex;gap:9px;align-items:center;flex-wrap:wrap}.row>*{flex:1}.scale-row{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center}.score{font-weight:800;color:var(--green);min-width:26px;text-align:right}
+textarea:focus,input:focus,select:focus{outline:2px solid #9ab89e;outline-offset:1px}
+.checkline{display:flex;align-items:center;gap:9px;margin:10px 0;font-size:14px}.checkline label{margin:0;font-weight:550}
+.calendar{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px;margin-top:12px}.weekday{text-align:center;font-size:10px;color:var(--muted);padding:3px 0}.day{background:#f0f1eb;border:1px solid var(--line);border-radius:10px;min-height:69px;padding:6px 4px;font-size:10px;text-align:center}.day .num{font-size:14px;font-weight:800}.day.dose{background:#e3eee3;border-color:#c2d6c3}.day.rest{background:#f4ead8;border-color:#e9d9b7}.day.today{outline:2px solid var(--green);outline-offset:1px}.day .tag{display:block;margin-top:4px;font-weight:800;font-size:9px}.day .tick{font-size:12px}
+.list{display:grid;gap:8px}.entryrow{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}.entryrow:last-child{border:0}
+.notice{background:#f5ead4;border:1px solid #ead8b2;border-radius:13px;padding:12px;font-size:12px;color:#60491e}.good{background:var(--green2);border-radius:13px;padding:12px;font-size:12px;color:var(--green)}
+footer{text-align:center;color:var(--muted);font-size:11px;padding:18px 10px}
+@media(min-width:620px){main{padding-top:22px}.hero h1{font-size:36px}.grid{gap:14px}.card{padding:18px}}
+</style>
+</head>
+<body>
+<header>
+ <div class="headerline"><div><div class="brand">Mindful<span> Journal</span></div><div class="sub">Observação pessoal · sem conclusões precipitadas</div></div><div id="headerDay" class="pill">DIA 1</div></div>
+ <nav>
+  <button class="active" data-view="today">Hoje</button><button data-view="journey">Percurso</button><button data-view="journal">Diário</button><button data-view="insights">Tendências</button><button data-view="settings">Definições</button>
+ </nav>
+</header>
+<main>
+<section id="today" class="view active">
+ <div class="hero"><div class="eyebrow" id="todayDate"></div><h1>Como estás hoje?</h1><p>Faz um registo rápido. Não precisas de sentir uma diferença para preencher o diário.</p></div>
+ <div class="grid">
+  <div class="card"><div class="small">Dia do percurso</div><div class="metric" id="dayNumber">1 / 35</div><div id="dayType" class="pill">Dia de registo</div></div>
+  <div class="card"><div class="small">Registos de toma</div><div class="metric" id="doseCount">0 / 18</div><div class="small">Regista o que aconteceu, sem alterar o plano aqui.</div></div>
+  <div class="card wide">
+   <h2>Estado atual</h2>
+   <div id="sliders"></div>
+   <label for="oneSentence">Em poucas palavras, como te sentes?</label><textarea id="oneSentence" placeholder="Ex.: tranquilo, distraído, energia normal..."></textarea>
+   <button class="btn full" id="saveToday">Guardar registo de hoje</button>
+   <div id="savedMsg" class="small" style="margin-top:8px"></div>
+  </div>
+  <div class="card wide"><h2>Contexto rápido</h2>
+   <div class="grid">
+    <div><label for="sleepHours">Sono (horas)</label><input id="sleepHours" type="number" min="0" max="24" step=".5" placeholder="Ex.: 7.5"></div>
+    <div><label for="coffee">Cafeína</label><select id="coffee"><option value="">Escolher…</option><option>Não</option><option>1 café</option><option>2 cafés</option><option>3+ cafés</option><option>Outra</option></select></div>
+    <div><label for="alcohol">Álcool nas últimas 24h</label><select id="alcohol"><option value="">Escolher…</option><option>Não</option><option>Sim</option></select></div>
+    <div><label for="movement">Exercício</label><select id="movement"><option value="">Escolher…</option><option>Não</option><option>Leve</option><option>Moderado</option><option>Intenso</option></select></div>
+   </div>
+   <label for="effects">Efeitos físicos ou psicológicos indesejados</label><textarea id="effects" placeholder="Regista qualquer sintoma, mesmo que ligeiro."></textarea>
+   <button class="btn secondary full" id="saveContext">Guardar contexto</button>
+  </div>
+  <div class="card wide"><h2>Uma pergunta para hoje</h2><p id="prompt" style="margin:0">O que observaste sem precisares de explicar porquê?</p><p class="small">Distingue o que aconteceu da interpretação que fizeste.</p></div>
+  <div class="card wide"><div class="notice"><strong>Nota de segurança:</strong> este diário não avalia se a psilocibina é adequada para ti e não recomenda doses. Não tomes doses adicionais para tentar produzir um efeito. Evita conduzir se houver qualquer alteração de perceção, atenção ou julgamento. Se tiveres sintomas graves ou preocupantes, procura assistência médica; em caso de emergência em Portugal, liga 112.</div></div>
+ </div>
+</section>
+<section id="journey" class="view">
+ <div class="hero"><div class="eyebrow">Calendário</div><h1>O teu percurso</h1><p>O calendário é apenas um registo visual baseado na data inicial que definires. Confirma sempre as instruções do fabricante e não o uses como recomendação clínica.</p></div>
+ <div class="card"><div class="row"><div><div class="small">Data inicial</div><div id="startLabel" style="font-weight:800"></div></div><button class="btn secondary" id="goSettings">Editar</button></div><div class="calendar" id="calendar"></div><div class="row" style="margin-top:12px"><span class="pill">Verde · dia previsto no calendário</span><span class="pill amber">Creme · dia intermédio</span></div></div>
+ <div class="card" style="margin-top:12px"><h2>Registo de toma</h2><p class="small">Assinala apenas o que realmente aconteceu. O calendário não confirma que tomaste alguma coisa.</p><label class="checkline"><input type="checkbox" id="tookDose"><span>Registar que tomei a substância hoje</span></label><label for="doseTime">Hora (se aplicável)</label><input id="doseTime" type="time"><label for="doseAmount">Quantidade indicada na embalagem / tomada</label><input id="doseAmount" type="text" placeholder="Registo factual, por exemplo: 1 g"><label for="doseNote">Notas</label><textarea id="doseNote" placeholder="Produto, lote, observações..."></textarea><button class="btn full" id="saveDose">Guardar registo de toma</button></div>
+ <div class="card" style="margin-top:12px"><h2>Reflexão semanal</h2><label for="weekSelect">Semana</label><select id="weekSelect"><option value="1">Semana 1</option><option value="2">Semana 2</option><option value="3">Semana 3</option><option value="4">Semana 4</option><option value="5">Semana 5</option></select><label for="weekText">O que notaste esta semana?</label><textarea id="weekText"></textarea><button class="btn full" id="saveWeek">Guardar reflexão</button></div>
+</section>
+<section id="journal" class="view">
+ <div class="hero"><div class="eyebrow">Reflexão</div><h1>Escrever para perceber</h1><p>Separa observação, interpretação e ação. Podes preencher só o que fizer sentido.</p></div>
+ <div class="grid">
+  <div class="card wide"><label for="obs">Observação — o que aconteceu, concretamente?</label><textarea id="obs"></textarea><label for="interp">Interpretação — que significado lhe deste?</label><textarea id="interp"></textarea><label for="pattern">Padrão — já aconteceu antes?</label><textarea id="pattern"></textarea><label for="action">Próxima ação — o que queres experimentar fazer?</label><textarea id="action"></textarea><button class="btn full" id="saveDeep">Guardar reflexão de hoje</button></div>
+  <div class="card wide"><h2>Histórico recente</h2><div id="recentEntries" class="list"></div></div>
+ </div>
+</section>
+<section id="insights" class="view">
+ <div class="hero"><div class="eyebrow">Observar padrões</div><h1>Tendências</h1><p>As avaliações são subjetivas. Procura padrões ao longo do tempo e considera outros fatores, como sono, cafeína, treino e contexto.</p></div>
+ <div class="grid"><div class="card wide"><h2>Médias dos registos</h2><div id="averages" class="list"></div></div><div class="card wide"><h2>Exportar os teus dados</h2><p class="small">Cria uma cópia de segurança em JSON. Guarda-a num local privado. O ficheiro não é enviado para nenhum servidor por esta aplicação.</p><button class="btn full" id="exportData">Exportar cópia de segurança</button><label for="importFile">Restaurar cópia de segurança</label><input id="importFile" type="file" accept=".json,application/json"><button class="btn secondary full" id="importData">Importar ficheiro selecionado</button></div></div>
+</section>
+<section id="settings" class="view">
+ <div class="hero"><div class="eyebrow">Configuração</div><h1>Definições</h1><p>Escolhe a data inicial e a intenção que queres acompanhar.</p></div>
+ <div class="card"><label for="startDate">Data inicial do diário</label><input id="startDate" type="date"><label for="intention">O que queres observar neste período?</label><textarea id="intention" placeholder="Ex.: atenção, humor, presença, hábitos..."></textarea><button class="btn full" id="saveSettings">Guardar definições</button></div>
+ <div class="card" style="margin-top:12px"><h2>Privacidade e limites</h2><p class="small">Os dados ficam no armazenamento local deste navegador/dispositivo. Não existe conta, sincronização ou servidor de dados. Se apagares os dados do site, podes perder os registos. Exporta cópias de segurança regularmente. Abrir o site noutro dispositivo ou navegador não transfere os registos.</p><p class="small">Adicionar o site ao ecrã principal do iPhone cria um atalho, mas não equivale a uma aplicação nativa nem garante cópia de segurança.</p><button class="btn danger full" id="eraseData">Apagar todos os dados locais</button></div>
+ <div class="card" style="margin-top:12px"><div class="notice"><strong>Segurança:</strong> a microdosagem de psilocibina não é isenta de riscos e a evidência científica de benefício permanece limitada. Considera interações com medicamentos e condições de saúde com um profissional de saúde. Não alteres medicação prescrita por causa deste diário. Não uses a aplicação para decidir aumentar ou repetir doses.</div></div>
+</section>
+</main>
+<footer>Mindful Journal · diário pessoal · não substitui aconselhamento médico</footer>
+<script>
+const KEY='mindfulJournalGitHubPagesV1';
+const prompts=[
+ 'O que observaste sem precisares de explicar porquê?',
+ 'Houve algum momento em que reagiste de forma diferente do habitual?',
+ 'Que fatores externos podem ter influenciado o teu estado hoje?',
+ 'O que te ajudou a estar presente?',
+ 'Que pensamento se repetiu e como respondeste?',
+ 'O que correu bem, mesmo que tenha sido pequeno?',
+ 'O que queres recordar desta semana?'
+];
+const metrics=[['mood','Humor'],['focus','Concentração'],['calm','Tranquilidade'],['energy','Energia'],['presence','Presença']];
+const todayISO=()=>{const d=new Date();return new Date(d.getTime()-d.getTimezoneOffset()*60000).toISOString().slice(0,10)};
+const dateObj=s=>{const [y,m,d]=s.split('-').map(Number);return new Date(y,m-1,d)};
+const diff=(a,b)=>Math.round((dateObj(b)-dateObj(a))/86400000);
+let data;
+try{data=JSON.parse(localStorage.getItem(KEY)||'null')}catch(e){data=null}
+if(!data||typeof data!=='object') data={startDate:'2026-10-28',intention:'',entries:{'2026-10-28':{tookDose:true,doseTime:'08:18',doseAmount:'1 g',doseNote:'Registo inicial indicado pelo utilizador.'}},weeks:{},deep:{}};
+if(!data.entries)data.entries={};if(!data.weeks)data.weeks={};if(!data.deep)data.deep={};
+function save(){localStorage.setItem(KEY,JSON.stringify(data))}
+function isScheduledDay(d){if(!data.startDate)return false;const n=diff(data.startDate,d);return n>=0&&n<35&&n%2===0}
+function dayIndex(d){return data.startDate?diff(data.startDate,d)+1:0}
+function entry(d){return data.entries[d]||(data.entries[d]={})}
+function navigate(id){document.querySelectorAll('.view').forEach(x=>x.classList.toggle('active',x.id===id));document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('active',x.dataset.view===id));if(id==='journal')renderRecent();if(id==='insights')renderAverages();window.scrollTo({top:0,behavior:'smooth'})}
+document.querySelectorAll('nav button').forEach(b=>b.addEventListener('click',()=>navigate(b.dataset.view)));
+document.getElementById('goSettings').onclick=()=>navigate('settings');
+function renderSliders(){const e=data.entries[todayISO()]||{};document.getElementById('sliders').innerHTML=metrics.map(([k,label])=>`<div style="margin:13px 0"><div class="scale-row"><label for="m-${k}" style="margin:0">${label}</label><span class="score" id="v-${k}">${e[k]??'—'}</span></div><input id="m-${k}" type="range" min="1" max="5" step="1" value="${e[k]??3}"><div class="row small" style="justify-content:space-between"><span>Muito baixo</span><span>Muito alto</span></div></div>`).join('');metrics.forEach(([k])=>document.getElementById('m-'+k).addEventListener('input',ev=>{document.getElementById('v-'+k).textContent=ev.target.value}))}
+function loadToday(){const d=todayISO(),e=data.entries[d]||{};renderSliders();document.getElementById('oneSentence').value=e.sentence||'';document.getElementById('sleepHours').value=e.sleepHours||'';document.getElementById('coffee').value=e.coffee||'';document.getElementById('alcohol').value=e.alcohol||'';document.getElementById('movement').value=e.movement||'';document.getElementById('effects').value=e.effects||'';document.getElementById('savedMsg').textContent=e.updated?'Último registo guardado: '+e.updated:''}
+function saveToday(){const d=todayISO(),e=entry(d);metrics.forEach(([k])=>e[k]=Number(document.getElementById('m-'+k).value));e.sentence=document.getElementById('oneSentence').value;e.updated=new Date().toLocaleTimeString('pt-PT',{hour:'2-digit',minute:'2-digit'});save();document.getElementById('savedMsg').textContent='Guardado às '+e.updated;renderTop()}
+function saveContext(){const e=entry(todayISO());e.sleepHours=document.getElementById('sleepHours').value;e.coffee=document.getElementById('coffee').value;e.alcohol=document.getElementById('alcohol').value;e.movement=document.getElementById('movement').value;e.effects=document.getElementById('effects').value;save();document.getElementById('savedMsg').textContent='Contexto guardado.'}
+function renderTop(){const d=todayISO(),n=dayIndex(d);document.getElementById('todayDate').textContent=dateObj(d).toLocaleDateString('pt-PT',{weekday:'long',day:'numeric',month:'long',year:'numeric'});document.getElementById('headerDay').textContent=n>0&&n<=35?'DIA '+n:'DIÁRIO';document.getElementById('dayNumber').textContent=(n>0?Math.min(n,35):'—')+' / 35';document.getElementById('dayType').textContent=n<1?'Antes da data inicial':n>35?'Período inicial concluído':isScheduledDay(d)?'Dia marcado no calendário':'Dia intermédio';const doses=Object.values(data.entries).filter(e=>e.tookDose===true).length;document.getElementById('doseCount').textContent=doses+' / 18';document.getElementById('startLabel').textContent=data.startDate?dateObj(data.startDate).toLocaleDateString('pt-PT'):'Não definida';document.getElementById('prompt').textContent=prompts[Math.max(0,n-1)%prompts.length];renderCalendar()}
+function renderCalendar(){const el=document.getElementById('calendar');el.innerHTML='';['S','T','Q','Q','S','S','D'].forEach(x=>{const w=document.createElement('div');w.className='weekday';w.textContent=x;el.appendChild(w)});if(!data.startDate)return;for(let i=0;i<35;i++){const d=new Date(dateObj(data.startDate));d.setDate(d.getDate()+i);const s=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');const e=data.entries[s]||{};const x=document.createElement('div');x.className='day '+(isScheduledDay(s)?'dose':'rest')+(s===todayISO()?' today':'');x.innerHTML=`<div class="num">${d.getDate()}</div><div>${d.toLocaleDateString('pt-PT',{month:'short'})}</div><span class="tag">${isScheduledDay(s)?'PREVISTO':'INTERMÉDIO'}</span>${e.tookDose?'<span class="tick">✓ registado</span>':''}`;el.appendChild(x)}}
+function loadDose(){const e=data.entries[todayISO()]||{};document.getElementById('tookDose').checked=!!e.tookDose;document.getElementById('doseTime').value=e.doseTime||'';document.getElementById('doseAmount').value=e.doseAmount||'';document.getElementById('doseNote').value=e.doseNote||''}
+function saveDose(){const e=entry(todayISO());e.tookDose=document.getElementById('tookDose').checked;e.doseTime=document.getElementById('doseTime').value;e.doseAmount=document.getElementById('doseAmount').value;e.doseNote=document.getElementById('doseNote').value;save();renderTop();alert('Registo de toma guardado.')}
+function loadSettings(){document.getElementById('startDate').value=data.startDate||'';document.getElementById('intention').value=data.intention||''}
+function saveSettings(){data.startDate=document.getElementById('startDate').value;data.intention=document.getElementById('intention').value;save();renderTop();loadSettings();alert('Definições guardadas.')}
+function saveWeek(){const w=document.getElementById('weekSelect').value;data.weeks[w]=document.getElementById('weekText').value;save();alert('Reflexão semanal guardada.')}
+document.getElementById('weekSelect').onchange=()=>document.getElementById('weekText').value=data.weeks[document.getElementById('weekSelect').value]||'';
+function loadDeep(){const e=data.deep[todayISO()]||{};['obs','interp','pattern','action'].forEach(k=>document.getElementById(k).value=e[k]||'')}
+function saveDeep(){data.deep[todayISO()]={};['obs','interp','pattern','action'].forEach(k=>data.deep[todayISO()][k]=document.getElementById(k).value);save();alert('Reflexão guardada.')}
+function renderRecent(){const el=document.getElementById('recentEntries'),rows=Object.entries(data.entries).sort((a,b)=>b[0].localeCompare(a[0])).slice(0,10);el.innerHTML=rows.length?rows.map(([d,e])=>`<div class="entryrow"><div><strong>${dateObj(d).toLocaleDateString('pt-PT',{day:'numeric',month:'short'})}</strong><div class="small">${(e.sentence||e.effects||'Sem nota').replace(/[<>&"]/g,' ')}</div></div><span class="pill ${e.tookDose?'':'amber'}">${e.tookDose?'Toma registada':'Diário'}</span></div>`).join(''):'<p class="small">Ainda não existem registos.</p>'}
+function renderAverages(){const rows=Object.values(data.entries);document.getElementById('averages').innerHTML=metrics.map(([k,label])=>{const vals=rows.map(e=>e[k]).filter(v=>typeof v==='number');const avg=vals.length?(vals.reduce((a,b)=>a+b,0)/vals.length).toFixed(1):'—';return `<div class="entryrow"><span>${label}</span><strong>${avg}${vals.length?' / 5':''}</strong></div>`}).join('')}
+function exportData(){const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='mindful-journal-backup.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
+async function importData(){const f=document.getElementById('importFile').files[0];if(!f){alert('Escolhe primeiro um ficheiro JSON.');return}try{const x=JSON.parse(await f.text());if(!x||typeof x!=='object'||!x.entries)throw Error();if(!confirm('A importação vai substituir os dados locais atuais. Continuar?'))return;data=x;save();loadAll();alert('Cópia de segurança importada.')}catch(e){alert('Não foi possível ler este ficheiro como cópia de segurança Mindful Journal.')}}
+function loadAll(){loadSettings();loadToday();loadDose();loadDeep();renderTop();document.getElementById('weekText').value=data.weeks[document.getElementById('weekSelect').value]||''}
+document.getElementById('saveToday').onclick=saveToday;document.getElementById('saveContext').onclick=saveContext;document.getElementById('saveDose').onclick=saveDose;document.getElementById('saveSettings').onclick=saveSettings;document.getElementById('saveWeek').onclick=saveWeek;document.getElementById('saveDeep').onclick=saveDeep;document.getElementById('exportData').onclick=exportData;document.getElementById('importData').onclick=importData;
+document.getElementById('eraseData').onclick=()=>{if(confirm('Apagar definitivamente todos os registos guardados neste navegador? Exporta uma cópia primeiro se quiseres preservá-los.')){localStorage.removeItem(KEY);data={startDate:'2026-10-28',intention:'',entries:{},weeks:{},deep:{}};save();loadAll()}};
+loadAll();
+</script>
+</body></html>
